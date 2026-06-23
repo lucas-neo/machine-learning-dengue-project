@@ -1,134 +1,218 @@
 Disciplina de Inteligência Artificial , Professor Munif , Unicesumar 2026
 
-> **Observação:** este README está em formato de planejamento/checklist. Cada item abaixo
-> reflete uma exigência do enunciado do Trabalho Final. Conforme o projeto avança, marque os
-> itens concluídos `[x]` e substitua os textos `(preencher)` pelo conteúdo definitivo.
+# Classificação de Dengue com Machine Learning
+
+Aplicação de técnicas de aprendizado de máquina supervisionado para triagem preliminar de dengue a partir de parâmetros hematológicos, com comparação entre KNN (Parte 1) e SVM (Parte 2).
 
 ---
 
-# Classificação de Dengue com Machine Learning (KNN x SVM)
+## Integrantes
 
-## ✅ Checklist geral de entrega (o que o Munif pediu)
-
-### Repositório no GitHub
-- [ ] Repositório criado e acessível
-- [ ] Projeto disponível no GitHub de **todos** os integrantes (fork, repo próprio ou colaboração)
-- [ ] Código-fonte do projeto
-- [ ] Dataset **ou** instruções claras para obtê-lo
-- [ ] Modelo treinado **ou** instruções claras para baixá-lo
-- [ ] Arquivo `README.md`
-- [ ] Arquivo **PDF** com o mesmo conteúdo principal do README
-- [ ] Nome completo e RA de todos os integrantes
-
-### Modelos obrigatórios
-- [ ] Pelo menos **1 método da Parte 1** → **KNN**
-- [ ] Pelo menos **1 método da Parte 2** → **SVM**
-
-### Avaliação (com gráficos, no README e no PDF)
-- [ ] Acurácia, precisão, revocação e F1-score
-- [ ] Matriz de confusão
-- [ ] Curva ROC / AUC
-- [ ] Comparação gráfica entre os modelos
-
-### Apresentação (última aula antes da prova)
-- [ ] Explicar o tema
-- [ ] Apresentar o dataset
-- [ ] Explicar os métodos
-- [ ] Mostrar os resultados
-- [ ] Comparar os modelos
-- [ ] Apresentar os gráficos
-- [ ] **Mostrar pelo menos um treinamento rodando**
-- [ ] Todos os integrantes preparados para responder perguntas (vale 1,0 ponto)
+- Nome do Aluno 1 - RA: XXXXXXXX
+- Nome do Aluno 2 - RA: XXXXXXXX
+- Nome do Aluno 3 - RA: XXXXXXXX
 
 ---
 
-## 1. Integrantes
-<!-- Exigência: nome completo + RA de todos. Sem isso, perde nota. -->
-- (preencher) Nome do Aluno 1 - RA: XXXXXXXX
-- (preencher) Nome do Aluno 2 - RA: XXXXXXXX
-- (preencher) Nome do Aluno 3 - RA: XXXXXXXX
-- (preencher) Nome do Aluno 4 - RA: XXXXXXXX
+## 1. Contextualização
+
+A dengue é uma das arboviroses mais prevalentes no Brasil, com mais de 6 milhões de casos confirmados em 2024. O diagnóstico precoce é essencial para evitar a progressão para formas graves da doença. Alterações no hemograma, especialmente a queda de plaquetas e a leucopenia, são marcadores clínicos reconhecidos pelo Ministério da Saúde como indicadores de suspeita de dengue.
+
+Este projeto aplica técnicas de aprendizado de máquina supervisionado para classificar pacientes como suspeitos ou não de dengue, a partir de parâmetros hematológicos rotineiros, sem necessidade de exames laboratoriais específicos e de maior custo.
 
 ---
 
-## 2. Resumo do projeto
+## 2. Problema
 
-### 2.1 Contextualização do tema
-(preencher) Dengue no Brasil, impacto na saúde pública, ODS 3, uso de IA para triagem.
-
-### 2.2 Problema
-(preencher) É possível prever se um paciente tem dengue a partir de parâmetros clínicos e
-hematológicos (plaquetas, leucócitos, hemoglobina etc.)?
-
-### 2.3 Hipótese da equipe
-(preencher) Modelos de classificação supervisionada conseguem distinguir casos de dengue de
-não-dengue com bom desempenho usando exames de sangue.
-
-### 2.4 Métodos de IA utilizados
-- **Parte 1 — KNN (k-Nearest Neighbors):** classificador baseado em distância.
-- **Parte 2 — SVM (Support Vector Machine):** classificador de margem máxima.
-- (preencher) justificativa da escolha e do pré-processamento exigido por ambos (escalonamento).
-
-### 2.5 Avaliação dos modelos (com gráficos)
-(preencher — inserir as imagens dos gráficos aqui)
-- Matriz de confusão KNN: `![Matriz KNN](imagens/matriz_knn.png)`
-- Matriz de confusão SVM: `![Matriz SVM](imagens/matriz_svm.png)`
-- Curva ROC: `![ROC](imagens/roc.png)`
-- Comparativo de métricas: `![Comparação](imagens/comparacao.png)`
-
-### 2.6 Comparação dos resultados
-(preencher — tabela KNN x SVM por métrica e qual venceu)
-
-### 2.7 Conclusão
-(preencher — qual modelo foi melhor, por quê, limitações e aprendizados)
+É possível prever, com boa acurácia, se um paciente tem dengue utilizando apenas dados de um hemograma simples?
 
 ---
 
-## 3. Dataset
-<!-- Exigência: explicar qual, origem, qtd, atributos, alvo, tratamento, split. -->
-- **Qual dataset:** Dengue Diseases (dados clínicos/hematológicos).
-- **Origem:** (preencher — link/Kaggle/Mendeley de onde foi obtido).
-- **Quantidade de registros:** 989 registros, 9 colunas.
-- **Variável alvo:** `dengue_label` (0 = sem dengue, 1 = dengue).
-- **Principais atributos:** age, gender, hemoglobin_g_dl, wbc_count, differential_count,
-  rbc_count, platelet_count, platelet_distribution_width.
-- **Tratamento/preparação realizada:**
-  - [ ] One-Hot Encoding na coluna `gender` (Male/Female/Child)
-  - [ ] `rbc_count` e `differential_count` tratados como binários
-  - [ ] Tratamento de outliers (`age`, `platelet_distribution_width`) via IQR/Z-score
-  - [ ] Correção de fim de linha (`\r`) na leitura
-  - [ ] Escalonamento (MinMax ou StandardScaler) — obrigatório p/ KNN e SVM
-  - [ ] (Opcional) Balanceamento de classes no treino (SMOTE / Tomek Links)
-- **Divisão treino/teste:** (preencher — ex.: 80/20 estratificado).
-- **Instruções de download:** (preencher, caso o dataset não esteja no repositório).
+## 3. Hipótese
+
+Modelos de classificação supervisionada conseguem distinguir casos de dengue de não-dengue com desempenho satisfatório a partir de atributos hematológicos como contagem de plaquetas, leucócitos e hemoglobina, atingindo acurácia superior a 85% no conjunto de teste.
 
 ---
 
-## 4. Como executar o projeto
-(preencher)
-1. Abrir o notebook no Google Colab (ou Jupyter).
-2. Fazer upload do arquivo CSV do dataset.
-3. Executar as células na ordem.
-4. (preencher) Onde fica o modelo treinado e como carregá-lo.
+## 4. Dataset
+
+**Nome:** Dengue Detection Dataset (Clinical Data)
+
+**Origem:** Dataset público disponível no Kaggle (dados clínicos e hematológicos de pacientes com e sem dengue).
+
+**Localização no repositório:** `archive/Dengue_diseases_dataset_modified (1).csv`
+
+**Dicionário de dados:** `archive/data_dictionary.csv`
+
+| Atributo | Descrição |
+|---|---|
+| `age` | Idade do paciente em anos |
+| `gender` | Gênero (Male, Female, Child) |
+| `hemoglobin_g_dl` | Hemoglobina em g/dL |
+| `wbc_count` | Contagem de leucócitos |
+| `differential_count` | Contagem diferencial de leucócitos (binário) |
+| `rbc_count` | Contagem de hemácias (binário) |
+| `platelet_count` | Contagem de plaquetas |
+| `platelet_distribution_width` | Largura de distribuição plaquetária (PDW) |
+| `dengue_label` | **Variável alvo** — 0 = sem dengue, 1 = dengue |
+
+**Quantidade de registros:** 989 amostras
+
+**Balanceamento original:** 644 dengue (65%) / 345 sem dengue (35%)
+
+### Tratamento e preparação dos dados
+
+- **Imputação:** valores ausentes preenchidos pela mediana (numéricas) e moda (categórica).
+- **One-Hot Encoding:** coluna `gender` transformada em colunas binárias (Male, Female, Child).
+- **Padronização:** `StandardScaler` aplicado em todas as colunas numéricas — obrigatório para KNN e SVM, que são sensíveis à escala dos atributos.
+- **Outliers:** não foram removidos. Valores extremos de plaquetas (ex.: 10.000) representam quadros severos de trombocitopenia, clinicamente relevantes para dengue hemorrágica.
+- **Balanceamento:** SMOTE aplicado exclusivamente no conjunto de treino, resultando em 515 amostras por classe.
+- **Divisão treino/teste:** 80% treino / 20% teste, estratificada para manter a proporção das classes.
 
 ---
 
-## 5. Modelo treinado
-- [ ] Modelo salvo no repositório (`modelo_knn.pkl` / `modelo_svm.pkl`) **ou**
-- [ ] Instruções de download (caso seja muito grande): onde está, como baixar, em qual pasta
-      colocar e como executar.
+## 5. Métodos de IA utilizados
+
+### Parte 1 — KNN (k-Nearest Neighbors)
+
+Algoritmo baseado em distância euclidiana. Classifica novas instâncias pela maioria das k instâncias mais próximas no espaço de atributos. Parâmetro utilizado: `k=5`.
+
+Por ser sensível à escala dos atributos, a padronização com `StandardScaler` é obrigatória antes do treinamento.
+
+### Parte 2 — SVM (Support Vector Machine)
+
+Algoritmo que busca o hiperplano de margem máxima para separar as classes. Parâmetros utilizados: `kernel='rbf'`, `C=1.0`, `probability=True`.
+
+- **Kernel RBF:** transforma o espaço de atributos para separar classes não linearmente separáveis.
+- **C=1.0:** parâmetro de regularização que equilibra a largura da margem e a tolerância a erros de classificação.
+- **probability=True:** necessário para calcular a curva ROC.
+
+Assim como o KNN, o SVM exige padronização prévia dos dados.
 
 ---
 
-## 6. Critérios de avaliação (referência — total 3,0 pontos)
-| Critério | Valor | Status |
+## 6. Avaliação dos modelos
+
+### Métricas
+
+| Métrica | KNN | SVM |
 |---|---|---|
-| Organização do repositório, README e PDF | 0,3 | [ ] |
-| Descrição do problema, contextualização e hipótese | 0,3 | [ ] |
-| Dataset, preparação dos dados e explicação | 0,3 | [ ] |
-| Treinamento com método da Parte 1 (KNN) | 0,3 | [ ] |
-| Treinamento com método da Parte 2 (SVM) | 0,3 | [ ] |
-| Avaliação dos modelos com métricas e gráficos | 0,3 | [ ] |
-| Comparação dos resultados e conclusão | 0,2 | [ ] |
-| Apresentação e perguntas | 1,0 | [ ] |
-| **Total** | **3,0** | |
+| Acurácia | 0,86 | **0,92** |
+| Precisão | 0,90 | **0,92** |
+| Revocação | 0,88 | **0,96** |
+| F1-Score | 0,89 | **0,94** |
+
+### Matrizes de confusão
+
+![Matrizes de Confusão](matriz_confusao.png)
+
+### Curva ROC / AUC
+
+![Curva ROC](curva_roc.png)
+
+### Comparação gráfica entre os modelos
+
+![Comparação de Métricas](comparacao_metricas.png)
+
+---
+
+## 7. Comparação dos resultados e conclusão
+
+O SVM superou o KNN em todas as métricas avaliadas. A diferença mais relevante está na **revocação** (0,96 vs 0,88), que representa a capacidade do modelo de identificar corretamente os casos positivos de dengue.
+
+Para um problema de triagem clínica, a revocação é a métrica mais crítica: falsos negativos (pacientes com dengue classificados como saudáveis) representam o erro mais grave. Analisando as matrizes de confusão, o SVM cometeu apenas 5 falsos negativos contra 16 do KNN, uma diferença de 11 pacientes que teriam sido mandados para casa sem atendimento.
+
+A hipótese do projeto foi confirmada: é possível realizar uma triagem preliminar de dengue com boa confiabilidade a partir de dados hematológicos simples. O SVM com kernel RBF foi o modelo com melhor desempenho, atingindo 92% de acurácia e 96% de revocação.
+
+O uso de SMOTE para balanceamento das classes no treino contribuiu para que ambos os modelos detectassem melhor a classe minoritária. A padronização dos atributos foi fundamental para o bom desempenho de ambos os algoritmos.
+
+---
+
+## 8. Modelos treinados
+
+Os modelos treinados estão disponíveis na raiz do repositório:
+
+| Arquivo | Descrição | Tamanho |
+|---|---|---|
+| `modelo_knn.pkl` | Pipeline completo KNN treinado | ~150 KB |
+| `modelo_svm.pkl` | Pipeline completo SVM treinado | ~29 KB |
+
+Os arquivos `.pkl` incluem o pipeline completo (pré-processamento + SMOTE + classificador). Aceitam dados brutos diretamente na predição, sem necessidade de pré-processar externamente.
+
+---
+
+## 9. Como executar
+
+### Notebook (treinamento e avaliação)
+
+1. Abra o `main.ipynb` no Google Colab ou Jupyter.
+2. Faça upload do arquivo CSV disponível em `archive/`.
+3. Execute as células em ordem.
+4. Os modelos serão salvos como `modelo_knn.pkl` e `modelo_svm.pkl`.
+
+### API de predição (back-end)
+
+```bash
+cd api
+pip install -r requirements.txt
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
+```
+
+Documentação interativa: `http://127.0.0.1:8000/docs`
+
+Endpoint de predição:
+
+```
+POST /prever
+Content-Type: application/json
+
+{
+  "age": 35,
+  "gender": "Male",
+  "hemoglobin_g_dl": 13.5,
+  "wbc_count": 3000,
+  "differential_count": 1,
+  "rbc_count": 1,
+  "platelet_count": 45000,
+  "platelet_distribution_width": 17.0
+}
+```
+
+### Aplicativo mobile (front-end)
+
+```bash
+cd dengue-app
+npm install
+npm start
+```
+
+Configure o arquivo `dengue-app/.env` com o endereço do servidor:
+
+```
+EXPO_PUBLIC_API_URL=http://SEU_IP:8000
+```
+
+---
+
+## 10. Estrutura do repositório
+
+```
+/
+├── main.ipynb                        # Notebook: treinamento e avaliação
+├── modelo_knn.pkl                    # Modelo KNN treinado
+├── modelo_svm.pkl                    # Modelo SVM treinado
+├── matriz_confusao.png               # Matrizes de confusão KNN e SVM
+├── curva_roc.png                     # Curva ROC / AUC
+├── comparacao_metricas.png           # Comparação gráfica das métricas
+├── archive/
+│   ├── Dengue_diseases_dataset_modified (1).csv
+│   └── data_dictionary.csv
+├── api/
+│   ├── main.py                       # API FastAPI
+│   └── requirements.txt
+├── dengue-app/
+│   ├── App.js                        # Aplicativo React Native (Expo)
+│   ├── .env                          # URL da API
+│   └── package.json
+└── README.md
+```

@@ -8,9 +8,9 @@ Aplicação de técnicas de aprendizado de máquina supervisionado para triagem 
 
 ## Integrantes
 
-- Nome do Aluno 1 - RA: XXXXXXXX
-- Nome do Aluno 2 - RA: XXXXXXXX
-- Nome do Aluno 3 - RA: XXXXXXXX
+- Lucas Neo - RA: 23135193-2
+- Murilo Silva - RA: 23272159-2
+- Raul Lopes - RA: 23141747-2
 
 ---
 
